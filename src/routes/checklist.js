@@ -12,4 +12,9 @@ router.post('/', (req , res) =>{
     res.status(200).json
     (req.body)
 })
-module.exports = router;
+//parametro na rota
+router.get('/:id', (req, res)=>{
+    console.log(req.params.id);
+    res.send(`ID: ${req.params.id}`)
+})
+module.exports = router; 
