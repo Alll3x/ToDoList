@@ -3,12 +3,23 @@ const { application } = require('express');
 const express = require('express')
 // definindo a variavel app como variavel do express
 const app = express();
+//usando middleware 
+app.use(express.json());
+
+const log = (req, res, next) =>{
+    console.log(req.body);
+    console.log(`Data: ${Date.now()}`);
+    next();
+}
+
+app.use(log)
 // enviando uma requisição para escrever algo na tela
 app.get('/', (req,res) =>{
     res.send('<h1>Coisas a fazer</h1>')
 })
-//adicionando uma resposta json (NÃO ESTÁ FUNCIONANDO)
-application.get('/json', (req, res) =>{
+//adicionando uma resposta json 
+app.get('/json', (req, res) =>{
+    console.log(req.body);
     res.json({title: 'Tarefa X', done: true});
 })
 
