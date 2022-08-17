@@ -11,7 +11,7 @@ const checklistRouter= require ('./src/routes/checklist');
 const rootRouter= require ('./src/routes/index');
 //importando mongodb
 require('./config/database');
-//====================================       ========================================
+//==================================== CODE ========================================
 //==================================== EXPRESS ========================================
 // definindo a variavel app como variavel do express
 const app = express();
