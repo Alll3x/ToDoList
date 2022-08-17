@@ -33,5 +33,5 @@ app.use(express.json());
 app.use('/checklists',checklistRouter);
 
 app.listen(3000, () => {
-    console.log('Ta tudo bacaninha');
+    console.log('Conectado ao servidor');
 })
