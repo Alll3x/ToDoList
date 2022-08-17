@@ -2,6 +2,10 @@
 const { application } = require('express');
 const express = require('express');
 const checklistRouter= require ('./src/routes/checklist');
+//importando mongodb
+require('./config/database')
+
+
 // definindo a variavel app como variavel do express
 const app = express();
 //usando middleware 
