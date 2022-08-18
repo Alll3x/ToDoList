@@ -1,8 +1,6 @@
 // ================================== IMPORTS ====================================
 const express = require('express');
 const checklist = require('../models/checklist');
-// const checklist = require('../models/checklist');
-// const checklist = require('../models/checklist');
 // ================================== CONST ====================================
 const router = express.Router();
 
@@ -41,6 +39,15 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+//pegando o id para passar para atualizar
+router.get('/:id/edit', async (req, res) =>{
+    try {
+        let checklist = await Checklist.findById(req.params.id);
+        res.status(200).render('checklists/edit', {checklist: checklist});
+    } catch (error) {
+        res.status(500).render('pages/error', { error: 'ERRO AO EXIBIR A EDIÇÃO DE LISTAS' })
+    }
+})
 // ================================== POST ====================================
 //rota post
 router.post('/', async (req, res) => {
@@ -57,12 +64,15 @@ router.post('/', async (req, res) => {
 // ================================== UPDATE ====================================
 //rota put
 router.put('/:id', async (req, res) => {
-    let { name } = req.body
+    let { name } = req.body.checklist;
+    let checklist = await Checklist.findById(req.params.id);
+
     try {
-        let checklist = await Checklist.findByIdAndUpdate(req.params.id, { name }, { new: true });
-        res.status(200).json(checklist);
+        await checklist.update({ name });
+        res.redirect('/checklists');
     } catch (error) {
-        res.status(422).json(error)
+        let errors = error.errors;
+        res.status(422).render('checklists/edit', {checklist: {...checklist, errors}});
     }
 }) 
 
