@@ -40,6 +40,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).render('pages/error', { error: 'ERRO AO EXIBIR AS LISTAS DE TAREFAS' })
     }
 })
+
 // ================================== POST ====================================
 //rota post
 router.post('/', async (req, res) => {
@@ -63,7 +64,8 @@ router.put('/:id', async (req, res) => {
     } catch (error) {
         res.status(422).json(error)
     }
-})
+}) 
+
 // ================================== DELETE ====================================
 //nova rota delete
 router.delete('/:id', async (req, res) => {

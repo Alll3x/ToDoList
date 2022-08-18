@@ -9,6 +9,8 @@ const path = require('path');
 const checklistRouter= require ('./src/routes/checklist');
 //import do index
 const rootRouter= require ('./src/routes/index');
+//method override
+const methodOverride = require('method-override')
 //importando mongodb
 require('./config/database');
 //==================================== CODE ========================================
@@ -16,12 +18,17 @@ require('./config/database');
 // definindo a variavel app como variavel do express
 const app = express();
 
+//==================================== MIDDLEWARES ========================================
 //middleware para interpretar json
 app.use(express.json());
 
 //middleware para gerenciar requisição de formulario
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}));
 
+//middleware method Override
+app.use(methodOverride('_method'));
+
+//==================================== CAMINHOS ========================================
 //setando caminho das paginas estaticas
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -30,7 +37,6 @@ app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
 
 //================================== ROTAS ======================================
-
 //setando rota da pg inicial (indes.ejs)
 app.use('/', rootRouter);
 //setando a rota do checklist
