@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 //middleware method Override
-app.use(methodOverride('_method'));
+app.use(methodOverride('_method', {methods: ['POST', 'GET']}));
 
 //==================================== CAMINHOS ========================================
 //setando caminho das paginas estaticas
