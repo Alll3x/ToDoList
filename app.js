@@ -15,9 +15,16 @@ require('./config/database');
 //==================================== EXPRESS ========================================
 // definindo a variavel app como variavel do express
 const app = express();
+
+//middleware para interpretar json
 app.use(express.json());
+
+//middleware para gerenciar requisição de formulario
+app.use(express.urlencoded({extended:true}))
+
 //setando caminho das paginas estaticas
 app.use(express.static(path.join(__dirname, 'public')))
+
 //setando o caminho das views
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
