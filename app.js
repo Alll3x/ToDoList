@@ -1,5 +1,4 @@
 // ================================== IMPORTS ====================================
-
 //importando o express
 const { application } = require('express');
 const express = require('express');
@@ -7,6 +6,8 @@ const express = require('express');
 const path = require('path');
 //import do checklist
 const checklistRouter= require ('./src/routes/checklist');
+//import da task
+const taskRouter= require ('./src/routes/task');
 //import do index
 const rootRouter= require ('./src/routes/index');
 //method override
@@ -37,10 +38,12 @@ app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
 
 //================================== ROTAS ======================================
-//setando rota da pg inicial (indes.ejs)
+//setando rota da pg inicial (index.ejs)
 app.use('/', rootRouter);
 //setando a rota do checklist
 app.use('/checklists', checklistRouter);
+//setando a rota da task
+app.use('/checklists', taskRouter.checklistDependent);
 
 //setando porta e mensagem de confimação do servidor 
 app.listen(3000, () => {
