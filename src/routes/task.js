@@ -52,6 +52,21 @@ simpleRouter.delete('/:id', async (req, res) =>{
         res.status(422).render('pages/error', {errors: 'Erro ao remover uma tarefa'})
     }
 })
+
+
+// ================================== PUT ====================================
+//definir task como concluida ou nn
+simpleRouter.put('/:id', async (req, res) =>{
+    let task = await Task.findById(req.params.id);
+    try {
+        task.set(req.body.task);
+        await task.save();
+        res.status(200).json({ task });
+    } catch (error) {
+        let errors = error.errors;
+        res.status(422).json({ task: {...errors }})
+    }
+})
 // ================================== EXPORT ====================================
 module.exports = {
     checklistDependent: checklistDependentRoute, 
