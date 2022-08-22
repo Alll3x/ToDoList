@@ -44,6 +44,8 @@ app.use('/', rootRouter);
 app.use('/checklists', checklistRouter);
 //setando a rota da task
 app.use('/checklists', taskRouter.checklistDependent);
+//setando a rota da task delete (simple)
+app.use('/tasks', taskRouter.simple);
 
 //setando porta e mensagem de confimação do servidor 
 app.listen(3000, () => {
