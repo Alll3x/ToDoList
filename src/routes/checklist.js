@@ -1,6 +1,5 @@
 // ================================== IMPORTS ====================================
 const express = require('express');
-const checklist = require('../models/checklist');
 // ================================== CONST ====================================
 const router = express.Router();
 
@@ -8,60 +7,82 @@ const Checklist = require('../models/checklist')
 // ================================== ROTAS ====================================
 
 // ================================== GETS ====================================
-// nova rota get 
+//rota get 
 router.get('', async (req, res) => {
     try {
         let checklist = await Checklist.find({});
         //passando a visualização 
-        res.status(200).render('checklists/index', {checklist: checklist})
+        res.status(200).render('checklists/index', { checklist: checklist })
     } catch (error) {
-        res.status(500).render('pages/error', {error: 'ERRO AO EXIBIR AS LISTAS'})
+        res.status(500).render('pages/error', { error: 'ERRO AO EXIBIR AS LISTAS' })
     }
 })
 
-//parametro na rota
+// rota new
+router.get('/new', async (req, res) => {
+    try {
+        let checklist = new Checklist();
+        res.status(200).render('checklists/new', { checklist: checklist });
+    } catch (error) {
+        res.status(500).render('pages/error', { error: 'erro ao carregar formulário' })
+    }
+})
+
+//rota id
 router.get('/:id', async (req, res) => {
     try {
-        let checklist = await Checklist.findById(req.params.id);
-        res.status(200).render('checklists/show', {checklist: checklist})
+        let checklist = await Checklist.findById(req.params.id).populate('tasks');
+        res.status(200).render('checklists/show', { checklist: checklist })
     } catch (error) {
-        res.status(200).render('pages/error', {error: 'ERRO AO EXIBIR AS LISTAS DE TAREFAS'})
+        res.status(500).render('pages/error', { error: 'ERRO AO EXIBIR AS LISTAS DE TAREFAS' })
+    }
+})
+
+//pegando o id para passar para atualizar
+router.get('/:id/edit', async (req, res) =>{
+    try {
+        let checklist = await Checklist.findById(req.params.id);
+        res.status(200).render('checklists/edit', {checklist: checklist});
+    } catch (error) {
+        res.status(500).render('pages/error', { error: 'ERRO AO EXIBIR A EDIÇÃO DE LISTAS' })
     }
 })
 // ================================== POST ====================================
-// nova rota post
+//rota post
 router.post('/', async (req, res) => {
-    let { name } = req.body;
-    console.log(name);
-    //         OU
-    // console.log(req.body["name"]);
+    let { name } = req.body.checklist;
+    let checklist = new Checklist({ name });
     try {
-        let checklist = await Checklist.create({ name })
-        res.status(200).json(checklist);
+        await checklist.save();
+        res.redirect('/checklists');
     } catch (error) {
-        res.status(422).json(error)
+       res.status(422).render('checklists/new', {checklist: {...checklist, error}})
     }
 })
 
 // ================================== UPDATE ====================================
-//nova rota put
+//rota put
 router.put('/:id', async (req, res) => {
-    let { name } = req.body
+    let { name } = req.body.checklist;
+    let checklist = await Checklist.findById(req.params.id);
+
     try {
-        let checklist = await Checklist.findByIdAndUpdate(req.params.id, { name }, { new: true });
-        res.status(200).json(checklist);
+        await checklist.update({ name });
+        res.redirect('/checklists');
     } catch (error) {
-        res.status(422).json(error)
+        let errors = error.errors;
+        res.status(422).render('checklists/edit', {checklist: {...checklist, errors}});
     }
-})
+}) 
+
 // ================================== DELETE ====================================
 //nova rota delete
 router.delete('/:id', async (req, res) => {
     try {
         let checklist = await Checklist.findByIdAndDelete(req.params.id);
-        res.status(200).json(checklist);
+        res.redirect('/checklists')
     } catch (error) {
-        res.status(422).json(error)
+        res.status(500).render('pages/error', { error: 'ERRO AO EXCLUIR' })
     }
 })
 // ================================== EXPORTS ====================================

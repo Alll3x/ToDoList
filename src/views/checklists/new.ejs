@@ -1,0 +1,14 @@
+<!-- ================================== PARTIAL ==================================== -->
+<%- include('../layouts/header', {title: 'TO-DO-LIST' }) %>
+    <%- include('../layouts/menu') %>
+        <!--================================== HTML ==================================== -->
+        <section class="section">
+            <div class="container">
+                <h1 class="title size-4">Nova Lista</h1>
+                <!--================================== INCLUDE FORM ==================================== -->
+                <%- include('form', {url: '/checklists?_method=post' , checklist: checklist}) %>
+                <!--================================== ==================================== -->
+            </div>
+        </section>
+        <!--================================== PARTIAL ==================================== -->
+        <%- include('../layouts/footer') %>

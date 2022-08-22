@@ -1,0 +1,14 @@
+<!-- ================================== PARTIAL ==================================== -->
+<%- include('../layouts/header', {title: `EDITAR: ${checklist.name}` }) %>
+    <%- include('../layouts/menu') %>
+        <!--================================== HTML ==================================== -->
+        <section class="section">
+            <div class="container">
+                <h1 class="title size-4">Editar</h1>
+                <!--================================== INCLUDE FORM ==================================== -->
+                <%- include('form', {url: `/checklists/${checklist.id}/?_method=put` , checklist: checklist}) %>
+                <!--================================== ==================================== -->
+            </div>
+        </section>
+        <!--================================== PARTIAL ==================================== -->
+        <%- include('../layouts/footer') %>
